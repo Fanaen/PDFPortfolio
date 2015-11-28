@@ -1,5 +1,5 @@
 var config = {};
 
-config.output = 'out/Showreel.pdf';
+config.output = 'out/Showreel';
 
 module.exports = config;
