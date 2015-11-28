@@ -1,5 +1,20 @@
 @import "bootstrap.less";
 
+// Variables --
+@widthReal: 21.0;
+@heightReal: 29.7;
+@widthPixelWithMargin: 1024px;
+@heightPixelWithMargin: 1448px;
+@heightPixel: @heightPixelWithMargin * ((@heightReal - 2) / @heightReal);
+@tileHeight: @heightPixel / 2 - 20px - 1px; // Remove padding and pixel perfect correction --
+
+// Tile system --
 .tile {
-  height: 27.7 / 2;
+  height: @tileHeight;
+  padding: 10px 0;
+
+  .content {
+    &:extend(.jumbotron all);
+    height: 100%;
+  }
 }

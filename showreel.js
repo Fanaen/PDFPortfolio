@@ -14,7 +14,7 @@ var jadeOptions = {
 // Create wkhtmltopdf's configuration --
 var wkOptions = {
   output: config.output + '.pdf',
-  enableLocalFileAccess : true
+  enableLocalFileAccess : true,
 };
 
 // Render the css --
@@ -27,9 +27,8 @@ var renderCSS = function() {
         less.render(data, {
             paths: ['.', './node_modules/bootstrap/less'],  // Specify search paths for @import directives
             filename: 'style.less', // Specify a filename, for better error messages
-            compress: true          // Minify CSS output
-          },
-          function (e, output) {
+            compress: false          // Minify CSS output
+          }).then(function(output) {
             jadeOptions.css = output.css;
             console.log("CSS rended from style.less.");
 
@@ -41,7 +40,10 @@ var renderCSS = function() {
 
             // Pursue the rendering --
             renderHTML();
-        });
+          },
+          function(error) {
+            console.error(error);
+          });
       }
       else{
         console.log(err);
