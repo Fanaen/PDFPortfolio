@@ -1,3 +1,3 @@
 var wkhtmltopdf = require('wkhtmltopdf');
 
-wkhtmltopdf('http://google.com/', { output: 'Showreel.pdf' });
+wkhtmltopdf('http://google.com/', { output: 'out/Showreel.pdf' });
