@@ -8,9 +8,8 @@ html(lang='en')
       .tile
         .content
           h1 Showreel #{metadata.date} by #{metadata.name}
-          p
-            :markdown-it
-              #{metadata.description}
+          p!= metadata.description
+              
       .tile
         .content
           p Test2
