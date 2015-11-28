@@ -4,6 +4,7 @@
   "description": "Generate a PDF with multiples images and captions to present your work.",
   "main": "showreel.js",
   "dependencies": {
+    "bootstrap": "^3.3.6",
     "jade": "^1.11.0",
     "wkhtmltopdf": "^0.1.5"
   },

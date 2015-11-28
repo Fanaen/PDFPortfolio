@@ -1,12 +1,13 @@
 doctype html
-html(lang="en")
+html(lang='en')
   head
     title= pageTitle
-    script(type='text/javascript').
-      if (foo) {
-         bar(1 + 5)
-      }
+    link(href='#{absolutePath}/node_modules/bootstrap/dist/css/bootstrap.min.css', rel='stylesheet')
   body
+    div(class="jumbotron")
+      h1 Hello, world
+      p
+        a(class="btn btn-primary btn-lg", href="#", role="button") Learn more
     h1 Jade - node template engine
     #container.col
       if youAreUsingJade
