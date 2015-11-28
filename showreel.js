@@ -6,7 +6,7 @@ var wkhtmltopdf = require('wkhtmltopdf'),
 
 // Create Jade's configuration --
 var jadeOptions = {
-  youAreUsingJade: true,
+  metadata: config.metadata,
   css: '',
   absolutePath: 'file:///' + __dirname.replace(/\\/g, '/') // Fix content not found error --
 };
