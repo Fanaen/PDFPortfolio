@@ -3,18 +3,81 @@
 // Variables --
 @widthReal: 21.0;
 @heightReal: 29.7;
+
 @widthPixelWithMargin: 1024px;
 @heightPixelWithMargin: 1448px;
+@widthPixel: @widthPixelWithMargin * ((@widthReal - 2) / @widthReal);
 @heightPixel: @heightPixelWithMargin * ((@heightReal - 2) / @heightReal);
-@tileHeight: @heightPixel / 2 - 20px - 1px; // Remove padding and pixel perfect correction --
+@tileHeight: @heightPixel / 2 + 1px; // Remove padding and pixel perfect correction --
+
+@mainColor: #138ec3;
 
 // Tile system --
+html {
+  width: @widthPixel;
+  max-width: @widthPixel;
+}
+
 .tile {
   height: @tileHeight;
-  padding: 10px 0;
+  padding: 20px 20px;
+}
 
-  .content {
-    &:extend(.jumbotron all);
-    height: 100%;
+.header {
+  padding: 40px !important;
+
+  h1 {
+    color: @mainColor;
+    font-size: 75px;
+    font-weight: bold;
+  }
+
+  h2 {
+    color: desaturate(lighten(@mainColor, 10%), 50%);
+    font-size: 45px;
+    text-align: right;
+  }
+
+  .description {
+    margin: 60px 20px 20px 20px;
+    font-size: 30px;
+  }
+}
+
+.content {
+  height: @tileHeight - 40px;
+  background-size: cover;
+  padding: 0 0 0 0;
+  position: relative;
+
+  border-radius: 20px;
+
+  img {
+    max-width: @widthPixel - 40px;
+    max-height: @tileHeight - 60px;
+  }
+}
+
+.caption {
+  background-color: @mainColor;
+  width: 450px;
+  padding: 2px 5px 10px 15px;
+
+  position: absolute;
+
+  color: white;
+
+  a, a:hover {
+    text-decoration: none;
+    color: lighten(@mainColor, 50%);
+  }
+
+  .title {
+    font-size: 40px;
+  }
+
+  .context, .role {
+    font-size: 25px;
+    margin-left: 10px;
   }
 }

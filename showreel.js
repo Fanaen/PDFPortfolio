@@ -7,9 +7,19 @@ var wkhtmltopdf = require('wkhtmltopdf'),
 // Create Jade's configuration --
 var jadeOptions = {
   metadata: config.metadata,
+  list: [],
   css: '',
-  absolutePath: 'file:///' + __dirname.replace(/\\/g, '/') // Fix content not found error --
+  absolutePath: 'file:///' + __dirname.replace(/\\/g, '/') + '/' // Fix content not found error --
 };
+
+// Parse config --
+for (var i = 0; i < config.list.length; i++) {
+  var item = config.list[i];
+
+  if(config.hasOwnProperty(item)) {
+    jadeOptions.list.push(config[item]);
+  }
+}
 
 // Create wkhtmltopdf's configuration --
 var wkOptions = {
