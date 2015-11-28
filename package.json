@@ -1,0 +1,15 @@
+{
+  "name": "pdf-showreel-generator",
+  "version": "0.1.0",
+  "description": "Generate a PDF with multiples images and captions to present your work.",
+  "main": "showreel.js",
+  "dependencies": {
+    "wkhtmltopdf": "^0.1.5"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Fanaen <contact@fanaen.fr>",
+  "license": "MIT"
+}
