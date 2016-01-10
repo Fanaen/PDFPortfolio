@@ -1,5 +1,5 @@
 {
-  "name": "pdf-portfolio-generator",
+  "name": "pdf-portfolio",
   "version": "0.1.0",
   "description": "Generate a PDF with multiples images and captions to present your work.",
   "main": "portfolio.js",
@@ -14,6 +14,7 @@
     "wkhtmltopdf": "^0.1.5"
   },
   "devDependencies": {},
+  "repository": "https://github.com/Fanaen/PDFPortfolio", 
   "scripts": {
     "start": "node portfolio.js",
     "test": "echo \"Error: no test specified\" && exit 1"

@@ -1,5 +1,5 @@
 ---
-output: 'out/Showreel'
+output: 'out/Portfolio'
 
 metadata:
   locale: en
@@ -11,11 +11,15 @@ exampleOne: &one
   mode: 'background'
   title: 'Example one'
   src: ''
+  context: 'Context'
+  role: 'Role'
 
 exampleTwo: &two
   mode: 'simple'
   title: 'Example two'
   src: ''
+  context: 'Context'
+  role: 'Role'
 
 list:
   - *one

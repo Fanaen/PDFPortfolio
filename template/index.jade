@@ -24,7 +24,10 @@ html(lang=locale)
                   else 
                     .title!= md(item.title)
                   
-                  .context!= md(item.context)
+                  if(item.context)
+                    .context!= md(item.context)
+                  
+                  if(item.role)
                   .role!= md(item.role) 
           when 'simple'
             .tile
