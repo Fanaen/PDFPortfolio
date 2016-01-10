@@ -1,8 +1,8 @@
 {
-  "name": "pdf-showreel-generator",
+  "name": "pdf-portfolio-generator",
   "version": "0.1.0",
   "description": "Generate a PDF with multiples images and captions to present your work.",
-  "main": "showreel.js",
+  "main": "portfolio.js",
   "dependencies": {
     "bluebird": "^3.1.1",
     "bootstrap": "^3.3.6",
@@ -15,7 +15,7 @@
   },
   "devDependencies": {},
   "scripts": {
-    "start": "node showreel.js",
+    "start": "node portfolio.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Fanaen <contact@fanaen.fr>",
