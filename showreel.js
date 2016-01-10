@@ -12,11 +12,17 @@ Promise.promisifyAll(fs);
 // Options --
 var options = {};
 var config = {};
+var source = 'config/config.yml';
+
+if(process.argv.length > 2)
+  source = 'config/' + process.argv[2] + '.yml';
+
+console.log('Config file set to: ' + source + '.');
 
 // Parse config --
 new Promise((resolve, reject) => {
   try {
-    config = yaml.safeLoad(fs.readFileSync('config/config.yml', 'utf8'));
+    config = yaml.safeLoad(fs.readFileSync(source, 'utf8'));
     console.log(config);
     resolve(config);
   } catch (e) {
@@ -75,7 +81,7 @@ new Promise((resolve, reject) => {
   .then(() => {
     return jade.renderFile('template/index.jade', options.jade);
   })
-  .then(() => {
+  .then((html) => {
     options.html = html;
     console.log("Html rended from index.jade.");
   })

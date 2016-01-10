@@ -1,5 +1,7 @@
 node_modules/
 out/
-config/config.js
-config/config.yml
 in/
+
+# Config files
+config/*.yml
+!config/*.example.yml
