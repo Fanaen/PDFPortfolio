@@ -18,7 +18,11 @@ html(lang='en')
             .tile
               .content(style={ background: 'url(' + absolutePath + item.src + ')  no-repeat center' })
                 .caption(style=item.captionStyle)
-                  a.title(href=item.titleHref)!= md(item.title)
+                  if item.titleHref
+                    a.title(href=item.titleHref)!= md(item.title)
+                  else 
+                    .title!= md(item.title)
+                  
                   .context!= md(item.context)
                   .role!= md(item.role) 
           when 'simple'
