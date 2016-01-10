@@ -2,6 +2,7 @@
 output: 'out/Showreel'
 
 metadata:
+  locale: en
   name: 'John Doe'
   date: '2015'
   description: 'Description in **Markdown**'

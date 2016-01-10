@@ -4,7 +4,15 @@ var Promise     = require("bluebird"),
     less        = require('less'),
     fs          = require('fs'),
     marked      = require('marked'),
-    yaml        = require('js-yaml');
+    yaml        = require('js-yaml'),
+    i18n        = require("i18n");
+
+// I18n --
+i18n.configure({
+    locales:['en', 'fr'],
+    directory: __dirname + '/locales',
+    defaultLocale: 'en'
+});
 
 // Promisification --
 Promise.promisifyAll(fs);
@@ -31,14 +39,21 @@ new Promise((resolve, reject) => {
 })
   // Set options --
   .then(() => {
+    // Internationalisation --
+    if(config.metadata.locale) {
+      i18n.setLocale(config.metadata.locale);
+    }
+
     options = {
       // Create Jade's configuration --
       jade: {
+        locale: config.metadata.locale,
         metadata: config.metadata,
         list: config.list,
         css: '',
         absolutePath: 'file:///' + __dirname.replace(/\\/g, '/') + '/', // Fix content not found error --
-        md: marked
+        md: marked,
+        __: i18n.__
       },
 
       // Create wkhtmltopdf's configuration --
