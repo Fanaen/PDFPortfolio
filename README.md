@@ -14,6 +14,10 @@ cd PDFPortfolio
 # Install dependencies
 npm install
 
+# Prepare folders
+mkdir in  # Store images used in the portfolio
+mkdir out # Store rendered stylesheets, html and pdf
+
 # Use the sample
 cp config/config.example.yml config/config.yml
 npm start
