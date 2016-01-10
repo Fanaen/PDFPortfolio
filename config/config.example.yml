@@ -1,0 +1,21 @@
+---
+output: 'out/Showreel'
+
+metadata:
+  name: 'John Doe'
+  date: '2015'
+  description: 'Description in **Markdown**'
+
+exampleOne: &one
+  mode: 'background'
+  title: 'Example one'
+  src: ''
+
+exampleTwo: &two
+  mode: 'simple'
+  title: 'Example two'
+  src: ''
+
+list:
+  - *one
+  - *two

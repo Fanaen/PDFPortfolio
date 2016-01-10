@@ -3,41 +3,50 @@ var Promise     = require("bluebird"),
     jade        = require('jade'),
     less        = require('less'),
     fs          = require('fs'),
-    config      = require('./config/config.js'),
-    marked      = require('marked');
+    marked      = require('marked'),
+    yaml        = require('js-yaml');
 
 // Promisification --
 Promise.promisifyAll(fs);
 
 // Options --
-var options = {
-  // Create Jade's configuration --
-  jade: {
-    metadata: config.metadata,
-    list: [],
-    css: '',
-    absolutePath: 'file:///' + __dirname.replace(/\\/g, '/') + '/', // Fix content not found error --
-    md: marked
-  },
-
-  // Create wkhtmltopdf's configuration --
-  wk: {
-    output: config.output + '.pdf',
-    enableLocalFileAccess : true,
-  }
-}
+var options = {};
+var config = {};
 
 // Parse config --
-for (var i = 0; i < config.list.length; i++) {
-  var item = config.list[i];
-
-  if(config.hasOwnProperty(item)) {
-    options.jade.list.push(config[item]);
+new Promise(function(resolve, reject) {
+  try {
+    config = yaml.safeLoad(fs.readFileSync('config/config.yml', 'utf8'));
+    console.log(config);
+    resolve(config);
+  } catch (e) {
+    reject(e);
   }
-}
+})
+  // Set options --
+  .then(function() {
+    options = {
+      // Create Jade's configuration --
+      jade: {
+        metadata: config.metadata,
+        list: config.list,
+        css: '',
+        absolutePath: 'file:///' + __dirname.replace(/\\/g, '/') + '/', // Fix content not found error --
+        md: marked
+      },
 
-// Read the Less file --
-return fs.readFileAsync('template/style.less', 'UTF-8')
+      // Create wkhtmltopdf's configuration --
+      wk: {
+        output: config.output + '.pdf',
+        enableLocalFileAccess : true,
+      }
+    };
+  })
+
+  // Read the Less file --
+  .then(function() {
+    return fs.readFileAsync('template/style.less', 'UTF-8');
+  })
 
   // Compute the CSS file --
   .then(function(data) {
