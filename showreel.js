@@ -1,95 +1,92 @@
-var wkhtmltopdf = require('wkhtmltopdf'),
+var Promise     = require("bluebird"),
+    wkhtmltopdf = require('wkhtmltopdf'),
     jade        = require('jade'),
     less        = require('less'),
     fs          = require('fs'),
     config      = require('./config/config.js');
 
-// Create Jade's configuration --
-var jadeOptions = {
-  metadata: config.metadata,
-  list: [],
-  css: '',
-  absolutePath: 'file:///' + __dirname.replace(/\\/g, '/') + '/' // Fix content not found error --
-};
+// Promisification --
+Promise.promisifyAll(fs);
+
+// Options --
+var options = {
+  // Create Jade's configuration --
+  jade: {
+    metadata: config.metadata,
+    list: [],
+    css: '',
+    absolutePath: 'file:///' + __dirname.replace(/\\/g, '/') + '/' // Fix content not found error --
+  },
+
+  // Create wkhtmltopdf's configuration --
+  wk: {
+    output: config.output + '.pdf',
+    enableLocalFileAccess : true,
+  }
+}
 
 // Parse config --
 for (var i = 0; i < config.list.length; i++) {
   var item = config.list[i];
 
   if(config.hasOwnProperty(item)) {
-    jadeOptions.list.push(config[item]);
+    options.jade.list.push(config[item]);
   }
 }
 
-// Create wkhtmltopdf's configuration --
-var wkOptions = {
-  output: config.output + '.pdf',
-  enableLocalFileAccess : true,
-};
+// Read the Less file --
+return fs.readFileAsync('template/style.less', 'UTF-8')
 
-// Render the css --
-var renderCSS = function() {
-  // Read the style file --
-  fs.readFile('template/style.less', {encoding: 'UTF-8'}, function(err,data){
-      if (!err){
+  // Compute the CSS file --
+  .then(function(data) {
+    return new Promise(function(resolve, reject) {
+      less.render(data, {
+          paths: ['.', './node_modules/bootstrap/less'],  // Specify search paths for @import directives
+          filename: 'style.less', // Specify a filename, for better error messages
+          compress: false          // Minify CSS output
+        }).then(resolve, reject);
+    });
+  })
+  .then(function(output) {
+    options.jade.css = output.css;
+    console.log("CSS rended from style.less.");
+    return output;
+  })
+  // Write the CSS output file --
+  .then(function(output) {
+    return fs.writeFileAsync(config.output + '.css', output.css);
+  })
+  // Info about writing --
+  .then(function() {
+    console.log('File created: '+ config.output + '.css');
+  })
 
-        // Compute the file --
-        less.render(data, {
-            paths: ['.', './node_modules/bootstrap/less'],  // Specify search paths for @import directives
-            filename: 'style.less', // Specify a filename, for better error messages
-            compress: false          // Minify CSS output
-          }).then(function(output) {
-            jadeOptions.css = output.css;
-            console.log("CSS rended from style.less.");
+  // Compute the HTML file --
+  .then(function() {
+    return jade.renderFile('template/index.jade', options.jade);
+  })
+  .then(function(html) {
+    options.html = html;
+    console.log("Html rended from index.jade.");
+    return html;
+  })
 
-            // Print the HTML --
-            fs.writeFile(config.output + '.css', output.css, function(err) {
-              if(err) { return console.log(err); }
-              console.log('File created: '+ config.output + '.css');
-            });
-
-            // Pursue the rendering --
-            renderHTML();
-          },
-          function(error) {
-            console.error(error);
-          });
-      }
-      else{
-        console.log(err);
-      }
-  });
-};
-
-// Render the HTML --
-var renderHTML = function() {
-  // Use the template --
-  var html = jade.renderFile('template/index.jade', jadeOptions);
-  console.log("Html rended from index.jade.");
-
-  // Print the HTML --
-  fs.writeFile(config.output + '.html', html, function(err) {
-    if(err) { return console.log(err); }
+  // Write the HTML output file --
+  .then(function(html) {
+    return fs.writeFileAsync(config.output + '.html', html)
+  })
+  .then(function() {
     console.log('File created: '+ config.output + '.html');
-  });
+  })
 
-  // Pursue the rendering --
-  renderPDF(html);
-};
-
-// Render the PDF --
-var renderPDF = function(html) {
   // Render the PDF --
-  wkhtmltopdf(html, wkOptions, function (code, signal) {
-    if(code) {
-      console.error(code);
-      console.error("Please check if the file is writable.");
-      return;
-    }
-
-    console.log('File created: '+ config.output + '.pdf');
+  .then(function() {
+    wkhtmltopdf(options.html, options.wk, function (code, signal) {
+      if(code) {
+        console.error(code);
+        console.error("Please check if the file is writable.");
+        return;
+      }
+      console.log('File created: '+ config.output + '.pdf');
+    });
   });
-};
-
-// Run the rendering --
-renderCSS();

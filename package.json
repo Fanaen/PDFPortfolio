@@ -4,6 +4,7 @@
   "description": "Generate a PDF with multiples images and captions to present your work.",
   "main": "showreel.js",
   "dependencies": {
+    "bluebird": "^3.1.1",
     "bootstrap": "^3.3.6",
     "jade": "^1.11.0",
     "less": "^2.5.3",
@@ -12,6 +13,7 @@
   },
   "devDependencies": {},
   "scripts": {
+    "start": "node showreel.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Fanaen <contact@fanaen.fr>",
