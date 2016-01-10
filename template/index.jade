@@ -9,7 +9,7 @@ html(lang='en')
         .content.header
           h1 Showreel #{metadata.date}
           h2 by #{metadata.name}
-          .description!= metadata.description
+          .description!= md(metadata.description)
       
       each item in list
         case item.mode
@@ -18,13 +18,13 @@ html(lang='en')
             .tile
               .content(style={ background: 'url(' + absolutePath + item.src + ')  no-repeat center' })
                 .caption(style=item.captionStyle)
-                  a.title(href=item.titleHref)!= item.title
-                  .context!= item.context
-                  .role!= item.role 
+                  a.title(href=item.titleHref)!= md(item.title)
+                  .context!= md(item.context)
+                  .role!= md(item.role) 
           when 'simple'
             .tile
               .content
                 .caption
-                  a.title(href=item.titleHref)!= item.title
-                  .context!= item.context
-                  .role!= item.role 
+                  a.title(href=item.titleHref)!= md(item.title)
+                  .context!= md(item.context)
+                  .role!= md(item.role) 

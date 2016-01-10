@@ -1,12 +1,11 @@
-var config = {},
-    marked = require('marked');
+var config = {};
 
 config.output = 'out/Showreel';
 
 config.metadata = {
   name: 'John Doe',
   date: '2015',
-  description: marked('Description in **Markdown**')
+  description: 'Description in **Markdown**'
 }
 
 config.list = [

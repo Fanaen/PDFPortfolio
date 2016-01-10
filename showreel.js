@@ -3,7 +3,8 @@ var Promise     = require("bluebird"),
     jade        = require('jade'),
     less        = require('less'),
     fs          = require('fs'),
-    config      = require('./config/config.js');
+    config      = require('./config/config.js'),
+    marked      = require('marked');
 
 // Promisification --
 Promise.promisifyAll(fs);
@@ -15,7 +16,8 @@ var options = {
     metadata: config.metadata,
     list: [],
     css: '',
-    absolutePath: 'file:///' + __dirname.replace(/\\/g, '/') + '/' // Fix content not found error --
+    absolutePath: 'file:///' + __dirname.replace(/\\/g, '/') + '/', // Fix content not found error --
+    md: marked
   },
 
   // Create wkhtmltopdf's configuration --
